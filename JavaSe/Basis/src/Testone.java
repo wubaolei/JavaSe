@@ -16,11 +16,16 @@ public class Testone
 		
 		System.out.println("这个员工：" + name + ",加薪：" + addsa + ",实得工资：" + salary);
 	}
+/*
+ * 
+ * 
+ * 	static void lazy()			// 声明静态方法
+ *	{
+ *	}
+ *
+ */
+
 	
-//	static void lazy()			// 声明静态方法
-//	{
-//		
-//	}
 	
 	// 入口方法
 	public static void main(String[] args)
