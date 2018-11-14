@@ -5,6 +5,7 @@ package com.wbl.ch0;
  * 可以间接继承多个父类
  * 最顶层的是 object
  */
+
 public class TestfiveSubclass extends Testfive	
 {
 	static
@@ -38,15 +39,17 @@ public class TestfiveSubclass extends Testfive
 	public static void main(String[] args)
 	{
 		TestfiveSubclass s = new TestfiveSubclass();
-//		Testfive w = new Testfive();
+		Testfive w = new Testfive();
 /*
  * 生命周期：
  * 		1.父类静态方法
  * 		2.子类静态方法
  * 		3.父类构造方法
  * 			实例对象后，父类匿名代码块在父类构造方法之前执行
+ * 			哪怕没有main方法，只要子类有main方法就能执行
  * 		4.子类构造方法
  * 			实例对象后，子类匿名代码块在子类构造方法之前执行
+ * 			没有实例对象，只执行 1 和 2 的静态方法
  */
 	}
 }
