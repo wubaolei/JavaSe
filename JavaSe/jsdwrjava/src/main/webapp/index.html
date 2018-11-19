@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+   <script type='text/javascript' src='/jsdwrjava/dwr/interface/wbl.js'></script>
+  <script type='text/javascript' src='/jsdwrjava/dwr/engine.js'></script>
+  <script type='text/javascript' src='/jsdwrjava/dwr/util.js'></script>
+  
+	<style>
+		#divwl
+		{
+			width: 100px;height: 100px;
+			background-color:black;
+		}
+	</style>
+
+</head>
+<body>
+	
+	
+	<input type="button" value="随机数" onclick="ranbtn()">
+	<p id="ptxt"></p>
+	<br>
+	<input type="button" value="名字" onclick="namebtn()">
+	<br>
+	<input type="text" id="name">
+	<br>
+	<br>
+	<br>
+	<input type="button" value="随机div大小" onclick="divbtn()">
+	<div id="divwl"></div>
+	
+	
+</body>
+
+<script>
+	var codes = document.getElementById('ptxt'),
+		names = document.getElementById('name'),
+		divwl = document.getElementById('divwl');
+
+	
+	function ranbtn()
+	{
+		wbl.code(function(datas){
+			codes.innerHTML = datas;
+		})
+	}
+
+	function namebtn()
+	{
+		wbl.namei(function(datas){
+			names.value = datas;
+		})
+	}
+
+
+	function divbtn()
+	{
+		wbl.wl(function(datas)
+		{
+			// console.log(datas);
+			divwl.style.width = datas[0] + "px";
+			divwl.style.height = datas[1] + "px"; 
+			
+		})
+		// divwl.style.width = 200 +"px";
+	}
+</script>
+
+</html>
