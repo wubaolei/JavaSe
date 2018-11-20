@@ -6,11 +6,10 @@
 
 <dwr>
   <allow>
+  
     <create creator="new" javascript="wbl">
-      <param name="class" value="com.wbl.interface1.Test"/>
+      <param name="class" value="com.wbl.htmltojava.Checkuser"/>
     </create>
     
-    
-   
   </allow>
 </dwr>
