@@ -9,17 +9,17 @@ import java.sql.SQLException;
 public class Linkdb
 {
 	Connection conn;
-
+	
 	Linkdb()
 	{
-		String url = "jdbc:mysql://localhost:3306/life?user=root&password=&useUnicode=true&characterEncoding=UTF8";
-		
+		String url = "jdbc:mysql://localhost:3306/life?user=root&password=&userUnicode=true&characterEncoding=UTF8";
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			
 			conn = DriverManager.getConnection(url);
-			System.out.println("连接成功：" + conn);
+			
+//			System.out.println("连接成功" + conn);
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -33,33 +33,27 @@ public class Linkdb
 		}
 	}
 	
-	
-	public boolean checkLogin(String name,String pwd)
+	public boolean checkUser(String name,String pwd)
 	{
-		// 1.定义sql
-		String sql = "SELECT  COUNT(*) FROM t_stus WHERE sname =? AND spwd =?";
-		
+		//1.定义sqk语句
+		String sql = "select count(*) from t_stus where sname=?and spwd=?";
+
 		try
 		{
-			// 2.执行sql语句  运用
+			//2.执行sql语句
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			
-			// 3.设置传入参数，下标是从1开始的
+			//3.传值进sql	setString 从 1 开始 看where的条件需要几个值就是几个
 			stmt.setString(1, name);
 			stmt.setString(2, pwd);
 			
-			// 4.select对应 --> executeQuery()
-			// ResultSet是一个结果集，表示查询的结果
-			ResultSet re = stmt.executeQuery();
+			//4.返回一个结果集 Resultset
+			//select 对应 --> executeQuery()
+			ResultSet rs = stmt.executeQuery();
 			
-			System.out.println(re);
-			
-			// 5.这个结果集一定要循环遍历
-			// re.next() 返回true，就代表结果集，进入循环体
-			while(re.next())
+			while(rs.next())
 			{
-				int count = re.getInt(1);
-				System.out.println("---------->" + count + "---" + re.next());
+				int count = rs.getInt(1);
 				
 				if(count>0)
 				{
@@ -72,8 +66,6 @@ public class Linkdb
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return false;
 	}
-	
 }

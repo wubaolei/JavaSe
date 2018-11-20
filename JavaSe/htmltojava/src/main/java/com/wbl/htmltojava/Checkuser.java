@@ -2,19 +2,15 @@ package com.wbl.htmltojava;
 
 public class Checkuser
 {
-	public String checklogin(String name,String pwd)
+	public String Checkuser(String name,String pwd)
 	{
 		Linkdb db = new Linkdb();
-		
-		boolean tf = db.checkLogin(name, pwd);
-		
+		boolean tf = db.checkUser(name, pwd);
 		if(tf)
 		{
-			return name+"£¬µÇÂ½³É¹¦";
+			return name+"»¶Ó­µÇÂ¼";
 		}
-		
 		return "¶Ô²»Æð£¬µÇÂ¼Ê§°Ü";
+		
 	}
-	
-	
 }

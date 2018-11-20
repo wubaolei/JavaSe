@@ -15,6 +15,7 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;height: 100vh;
+		background-color:#ebd3f7;
 	}
 
 	.login
@@ -59,7 +60,7 @@
 			var name = document.querySelector('.name').value,
 				pwd = document.querySelector('.pwd').value;
 
-			wbl.checklogin(name,pwd,function(datas)
+			wbl.Checkuser(name,pwd,function(datas)
 			{
 				alert(datas);
 				name = "";
