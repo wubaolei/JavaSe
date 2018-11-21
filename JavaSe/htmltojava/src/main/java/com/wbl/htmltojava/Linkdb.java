@@ -68,4 +68,54 @@ public class Linkdb
 		}
 		return false;
 	}
+	
+	
+	
+	public String[] divvalue()
+	{
+		String sql = "SELECT sname FROM t_stus";
+		String[] datas = null;
+		
+		try
+		{
+			PreparedStatement stmt  = conn.prepareStatement(sql);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			int count = 0;
+			
+			while(rs.next())
+			{
+				count++;
+			}
+			
+			datas = new String[count];
+			
+			rs.beforeFirst();
+			
+			int row = 0;
+			while(rs.next())
+			{
+				String each = rs.getString(1);
+				datas[row++] = each;
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return datas;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

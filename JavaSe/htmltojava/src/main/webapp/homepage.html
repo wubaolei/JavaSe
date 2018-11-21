@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+  <script type='text/javascript' src='/htmltojava/dwr/interface/wbl.js'></script>
+  <script type='text/javascript' src='/htmltojava/dwr/engine.js'></script>
+  <script type='text/javascript' src='/htmltojava/dwr/util.js'></script>
+
+<style>
+	.wrap{width: 100%;height: 100vh;}
+	.top
+	{
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		width: 80%;height: 20%;
+		border: 1px solid red;
+	}
+	.deach
+	{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 60px;height: 50px;
+		font-family: '楷体';
+		border: 1px dashed #ccc;
+	}
+	.deach:hover
+	{
+		background-color: #faebd7;
+	}
+</style>
+
+</head>
+<body>
+	<div class="wrap">
+		<div class="top"></div>
+	</div>
+
+	<script>
+		var tops =document.querySelector('.top');
+
+		// var user = location.search;
+
+		console.log(window.location);
+
+		wbl.divdatas(function(datas)
+		{
+			// console.log(datas.length);
+			for(var i = 0; i < datas.length;i++)
+			{
+				var deach = document.createElement('div');
+					deach.className = 'deach';
+					deach.innerText = datas[i];
+
+				 tops.appendChild(deach);
+			} 
+			
+		})
+	</script>
+</body>
+</html>

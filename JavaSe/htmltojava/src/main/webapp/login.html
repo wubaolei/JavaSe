@@ -63,9 +63,9 @@
 			wbl.Checkuser(name,pwd,function(datas)
 			{
 				alert(datas);
-				name = "";
-				pwd = "";
 			})
+
+			window.location = "homepage.html?user="+name;
 		}
 
 

@@ -11,6 +11,15 @@ public class Checkuser
 			return name+"»¶Ó­µÇÂ¼";
 		}
 		return "¶Ô²»Æð£¬µÇÂ¼Ê§°Ü";
+	}
+	
+	
+	public String[] divdatas()
+	{
+		Linkdb db = new Linkdb();
 		
+		String[] datas = db.divvalue();
+		
+		return datas;
 	}
 }
