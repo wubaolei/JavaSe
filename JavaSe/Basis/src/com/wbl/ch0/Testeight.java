@@ -31,9 +31,6 @@ public class Testeight
 		System.out.println("----------------");
 	}
 	
-	
-	
-	
 	public void Linksql()
 	{
 		try
@@ -70,7 +67,7 @@ public class Testeight
 									// 重新使用rs.next()
 			while(rs.next())
 			{
-				name[row++] = rs.getString(1);
+				name[row++] = rs.getString(1);		// 存放数据
 			}
 			
 			for(String a:name)		// foreach遍历 适用 jdk1.5 版本
