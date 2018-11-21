@@ -10,6 +10,8 @@ public class ConnectSQL
 	{
 		try
 		{
+			
+			// 导入sql架包
 			Class.forName("com.mysql.jdbc.Driver");
 			
 			Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/life", "root", null);
@@ -26,14 +28,4 @@ public class ConnectSQL
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args)
-	{
-		ConnectSQL c = new ConnectSQL();
-	}
-	
-	
-	
-	
-	
 }

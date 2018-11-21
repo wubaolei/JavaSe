@@ -1,6 +1,8 @@
 package com.wbl.example;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class User
 {
@@ -11,9 +13,10 @@ public class User
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-
 			
-			System.out.println("雷哥");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/life","root",null);
+			
+			System.out.println("雷哥-------" + conn);
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -21,19 +24,10 @@ public class User
 			e.printStackTrace();
 			System.out.println("我丢类");
 		}
-	}
-	
-	
-	
-	static void aaa()
-	{
-		
-	}
-	
-	public static void main(String[] args)
-	{
-//		User u1 = new User();
-		
-		User.aaa();
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
