@@ -2,22 +2,25 @@ package com.wbl.review;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectSQL
 {
-
-	public void cc()
+	Connection conSQL;
+	
+	ConnectSQL()
 	{
 		try
 		{
-			// 第一步加载数据库驱动
 			Class.forName("com.mysql.jdbc.Driver");
+						
+			String url = "jdbc:mysql://localhost:3306/life?user=root&password=&userUnicode=true&characterEncoding=UTF8";
 			
-			// 连接数据库
-			Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/life", "root", null);
+			conSQL = DriverManager.getConnection(url);
 			
-			System.out.println(conn);
+//			System.out.println(conSQL);
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -31,11 +34,38 @@ public class ConnectSQL
 		}
 	}
 	
+	public void executeSQL()
+	{
+		// 1.编写sql语句
+		String sql = "select sname from t_stus";
+		
+		try
+		{
+			// 2.带入sql
+			PreparedStatement stmt = conSQL.prepareStatement(sql);
+			
+			// 3.执行sql 存入结果集
+			ResultSet rs = stmt.executeQuery();
+			
+			// 4.while循环
+			while(rs.next())
+			{
+				String data = rs.getString(1);	// 查询出的数据按列来算  从 1 开始
+				
+				System.out.println(data);
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public static void main(String[] args)
 	{
-		ConnectSQL c = new ConnectSQL();
-		c.cc();
+		ConnectSQL con = new ConnectSQL();
+		
+		con.executeSQL();
 	}
-	
 }
