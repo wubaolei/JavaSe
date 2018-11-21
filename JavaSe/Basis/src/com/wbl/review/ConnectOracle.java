@@ -14,9 +14,13 @@ public class ConnectOracle
 	{
 		try
 		{
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			
+//			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE", "student", "student");
 			
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE", "student", "student");
+			Class.forName("Oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","student","student");
 			
 			System.out.println("ÔÙ¿´¿´£¿-->" + conn);
 		}
@@ -53,8 +57,6 @@ public class ConnectOracle
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	
@@ -63,10 +65,5 @@ public class ConnectOracle
 		ConnectOracle t = new ConnectOracle();
 		
 		t.selectOracle();
-
 	}
-	
-	
-	
-	
 }
