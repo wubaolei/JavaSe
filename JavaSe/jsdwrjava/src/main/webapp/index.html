@@ -19,7 +19,6 @@
 </head>
 <body>
 	
-	
 	<input type="button" value="随机数" onclick="ranbtn()">
 	<p id="ptxt"></p>
 	<br>
@@ -32,7 +31,6 @@
 	<input type="button" value="随机div大小" onclick="divbtn()">
 	<div id="divwl"></div>
 	
-	
 </body>
 
 <script>
@@ -43,7 +41,7 @@
 	
 	function ranbtn()
 	{
-		wbl.code(function(datas){
+		wbl.code(function(datas){			// 通过dwr提供的script文件，使用Java方法
 			codes.innerHTML = datas;
 		})
 	}
@@ -55,7 +53,6 @@
 		})
 	}
 
-
 	function divbtn()
 	{
 		wbl.wl(function(datas)
@@ -63,9 +60,7 @@
 			// console.log(datas);
 			divwl.style.width = datas[0] + "px";
 			divwl.style.height = datas[1] + "px"; 
-			
 		})
-		// divwl.style.width = 200 +"px";
 	}
 </script>
 

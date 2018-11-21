@@ -39,8 +39,8 @@ public class Code
 		}
 		else
 		{
-			a[0] = 100;
-			a[1] = 100;
+			a[0] = 200;
+			a[1] = 200;
 		}
 		return a;
 	}
