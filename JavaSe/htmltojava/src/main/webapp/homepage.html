@@ -4,13 +4,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script src="https://a.alipayobjects.com/g/datavis/g2/2.3.13/g2.js"></script>
+
+
+
   <script type='text/javascript' src='/htmltojava/dwr/interface/wbl.js'></script>
   <script type='text/javascript' src='/htmltojava/dwr/engine.js'></script>
   <script type='text/javascript' src='/htmltojava/dwr/util.js'></script>
 
 <style>
 	.wrap{width: 100%;height: 100vh;}
-	.top
+	.div_top
 	{
 		margin: 0 auto;
 		display: flex;
@@ -24,7 +28,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 60px;height: 50px;
+		height: 30px;
+		padding: 10px;
 		font-family: '楷体';
 		border: 1px dashed #ccc;
 	}
@@ -32,34 +37,151 @@
 	{
 		background-color: #faebd7;
 	}
+
+	.div_middle{margin:0 auto;}
+
+	.tabstyle
+	{
+		margin: 5px auto;
+		border-collapse:collapse;
+		border: 1px dashed #ccc;
+	}
+	.tabstyle td
+	{
+		border: 1px solid #ccc;
+		padding: 10px;
+		text-align: center;
+		cursor: pointer;
+	}
 </style>
 
 </head>
 <body>
 	<div class="wrap">
-		<div class="top"></div>
+		<div class="div_top"></div>
+
+		<div class="div_middle" id="categoryview"></div>
+
 	</div>
 
 	<script>
-		var tops =document.querySelector('.top');
+		var tops =document.querySelector('.div_top'),
+			middles = document.querySelector('.div_middle');
 
-		// var user = location.search;
-
-		console.log(window.location);
-
-		wbl.divdatas(function(datas)
+		wbl.navigationData(function(datas)
 		{
-			// console.log(datas.length);
-			for(var i = 0; i < datas.length;i++)
-			{
-				var deach = document.createElement('div');
-					deach.className = 'deach';
-					deach.innerText = datas[i];
+			// console.log(datas);
 
-				 tops.appendChild(deach);
-			} 
-			
+			for(var i = 0; i < datas.length; i++)
+			{
+				var navigation_div = document.createElement('div');
+					navigation_div.className = 'deach';
+					navigation_div.innerText = datas[i][1];
+					navigation_div.setAttribute("name",datas[i][0]);
+					navigation_div.addEventListener("click",createTable,false);
+
+				tops.appendChild(navigation_div);
+			}
 		})
+
+		function createTable(e)					// 创建表格
+		{
+			// console.log(e.target.attributes.name.value);
+			
+			var name = e.target.attributes.name.value;
+
+			middles.innerHTML = "";
+
+			wbl.createAntvs(name,function(datas)
+			{
+				var chartDatas = JSON.parse(datas);
+
+				//console.log(chartDatas);
+				
+				var chart = new G2.Chart(
+				{
+					id: "categoryview",
+					width: 300,			// 宽度自适应，也可以直接调整
+					height: 200
+				});
+				//console.log(chart);
+
+				chart.source(chartDatas,{
+					
+					  dataw: {
+			               alias: "人数"
+			           },
+			    	   sex: {
+			               alias: "性别" //定义别名
+			           }
+			         
+			       });
+                  //[{"dataw":4,"sex":"女"},{"dataw":2,"sex":"男"}]
+				//chart.interval().position('sex*dataw').color('sex');
+				chart.interval().position("sex*dataw").color("sex");
+
+				chart.render();
+				
+			});
+
+			wbl.tableDatas(name,function(datas)
+			{
+				// console.log(datas)
+				
+				var fragment = document.createDocumentFragment('fragment');
+				var tab = document.createElement('table');
+					tab.className = "tabstyle";
+
+				for(var i = 0; i < datas.length; i++)				// 纵向排布
+				{
+				 	var tr = document.createElement('tr');			//	建行
+
+				 	// console.log(datas[i][0])
+
+				 	datas[i].splice(0,1);
+				 	datas[i].splice(4,1);
+				 	datas[i].splice(6,1);
+
+				 	for(var j = 0; j < datas[i].length; j++)
+				 	{
+				 		var td = document.createElement('td');		// 建列
+
+				 		td.innerText = datas[i][j];					// 列中赋值
+
+				 		tr.appendChild(td);							// tr插入td
+				 	}
+
+				 	tr.addEventListener("click",playName,false);
+
+				 	tab.appendChild(tr);							// table插入tr
+				}
+
+				fragment.appendChild(tab);
+				middles.appendChild(fragment);
+
+				middles.style.border="1px solid black";
+			})
+
+
+			function playName(e)				// addEventListener事件
+			{
+				var trTxt = e.target.innerText;
+				Playtrtxt(trTxt,2000)
+			}
+
+			function Playtrtxt(name,time)		// 定时播报语音
+			{
+				setTimeout(function()
+				{
+					var audioObj = document.createElement('audio');
+
+						audioObj.src = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=1&text=" + name;
+
+						audioObj.play();
+
+				},time)
+			}
+		}
 	</script>
 </body>
 </html>

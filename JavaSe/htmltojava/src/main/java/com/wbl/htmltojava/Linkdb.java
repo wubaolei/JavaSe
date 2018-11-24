@@ -4,7 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
+import sun.awt.image.ImageWatched.Link;
+
+
 
 public class Linkdb
 {
@@ -69,35 +76,93 @@ public class Linkdb
 		return false;
 	}
 	
-	
-	
-	public String[] divvalue()
+	public String[][] dataSQL()
 	{
-		String sql = "SELECT sname FROM t_stus";
-		String[] datas = null;
+		String[][] datas = null;
 		
 		try
 		{
-			PreparedStatement stmt  = conn.prepareStatement(sql);
-			
+			String sql = "SELECT cid,cname FROM t_classes";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
 			ResultSet rs = stmt.executeQuery();
-			
-			int count = 0;
-			
+
+			// 获取列数
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			int col = rsmd.getColumnCount();
+
+			// 获取行数
+			int row = 0;
+
 			while(rs.next())
 			{
-				count++;
+				row++;
 			}
+			datas = new String[row][col];
+
+			rs.beforeFirst();		// 从头开始
+
+			int count = 0;			// 开始装载数据
+			while(rs.next())		// 第一层循环
+			{
+				for(int i = 0; i < col; i++)	// 第二层循环
+				{
+					datas[count][i] = rs.getString(i+1);	// i 是从 0 开始的  而getString() 是从 1 开始的
+				}
+				count++;			// 第二层循环出来 count+1，再次进入第二层循环
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return datas;
+	}
+	
+	
+
+	public String[][] tableDatas(String cid)
+	{
+		String sql = "SELECT * FROM n_compute WHERE ncid =?";
+		
+		String[][] datas=null;
+		try
+		{
+			PreparedStatement pstm = conn.prepareStatement(sql);
 			
-			datas = new String[count];
+			pstm.setString(1, cid);
 			
-			rs.beforeFirst();
+			ResultSet rs = pstm.executeQuery();
 			
+			// 设置列
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+			int col = rsmd.getColumnCount();
+			
+			//设置行
 			int row = 0;
 			while(rs.next())
 			{
-				String each = rs.getString(1);
-				datas[row++] = each;
+				row++;
+			}
+			
+			datas = new String[row][col];
+			
+			rs.beforeFirst();
+			
+			int count = 0;
+			while(rs.next())
+			{
+				for(int i = 0; i < col; i++)
+				{
+					datas[count][i] = rs.getString(i+1);
+				}
+				
+				count++;
 			}
 		}
 		catch (SQLException e)
@@ -107,13 +172,59 @@ public class Linkdb
 		}
 		
 		return datas;
-		
 	}
 	
 	
-	
-	
-	
+	public Object[][] createAntv(String cid)	// 创建报表
+	{
+		String sql = "SELECT nsex,COUNT(*) FROM (SELECT * FROM n_compute WHERE ncid=?)AS newtable GROUP BY nsex";
+		
+		Object[][] datas = null;
+		
+		try
+		{
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			// 带入参数
+			pstmt.setString(1,cid);
+			
+			// 定义结果集
+			ResultSet rs = pstmt.executeQuery();
+			
+			// 获取数据的列数
+			ResultSetMetaData rsmt = rs.getMetaData();
+			int col = rsmt.getColumnCount();
+			
+			// 获取数据的行数
+			int row = 0;
+			while( rs.next() )
+			{
+				row++;
+			}
+			datas = new Object[row][col];	// 完美定义数组
+			
+			rs.beforeFirst();
+			
+			int count = 0;
+			while(rs.next())
+			{
+				for( int i = 0; i < col; i++)
+				{
+					datas[count][i] = rs.getObject(i+1);
+				}
+				
+				count++;
+			}
+			
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return datas;
+	}
 	
 	
 	
