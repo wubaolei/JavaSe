@@ -46,7 +46,9 @@ public class Checkuser
 		return datas;
 	}
 	
-	public String createAntvs(String cid)
+	
+	
+	public String createAntvs(String cid)				// 数据转化 json 格式
 	{
 		Linkdb db = new Linkdb();
 		
@@ -71,7 +73,4 @@ public class Checkuser
 		
 		//return datas;
 	}
-	
-	
-	
 }

@@ -119,7 +119,6 @@ public class Linkdb
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return datas;
 	}
 	
@@ -170,7 +169,6 @@ public class Linkdb
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return datas;
 	}
 	
@@ -215,7 +213,6 @@ public class Linkdb
 				
 				count++;
 			}
-			
 		}
 		catch (SQLException e)
 		{
