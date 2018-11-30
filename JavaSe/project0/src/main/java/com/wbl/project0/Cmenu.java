@@ -16,8 +16,6 @@ public class Cmenu
 		this.cid = cid;
 	}
 
-
-
 	public String getCname()
 	{
 		return cname;

@@ -69,13 +69,6 @@ public class ConnectionSQL
 		return count;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 
 	public Object CheckUser(String username, String password) // 查询 某某存不存在数据库
 	{

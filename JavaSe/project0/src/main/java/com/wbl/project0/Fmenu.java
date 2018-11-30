@@ -37,5 +37,4 @@ public class Fmenu
 	{
 		this.cmenu = cmenu;
 	}
-
 }

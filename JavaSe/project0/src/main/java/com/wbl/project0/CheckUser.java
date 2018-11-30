@@ -45,7 +45,7 @@ public class CheckUser
 		return a;
 	}
 	
-	public String[] getMenulist()
+	public String[] getMenulist()					// 顶部菜单
 	{
 		ConnectionSQL db = new ConnectionSQL();
 		
@@ -54,7 +54,7 @@ public class CheckUser
 		return datas;
 	}
 	
-	public String[][] getTabledata(String txt,int initialnum,int barnum)
+	public String[][] getTabledata(String txt,int initialnum,int barnum)		// 分页的数据
 	{
 		ConnectionSQL db = new ConnectionSQL();
 		
