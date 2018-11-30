@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<script type='text/javascript' src='/project0/dwr/interface/wbl.js'></script>
+<script type='text/javascript' src='/project0/dwr/engine.js'></script>
+<script type='text/javascript' src='/project0/dwr/util.js'></script>
+
+<style>
+html,body{margin: 0;}
+	#wrap
+	{
+		width: 100%;height: 100vh;
+	}
+	#topdiv
+	{
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;height: 20%;
+		background-color: #ccc;
+	}
+	
+	.menulist
+	{
+		height: 20px;
+		margin: 0 60px;
+		padding: 10px;
+		/*border: 1px solid red;*/
+		cursor:pointer;
+	}
+	.menulist:hover
+	{
+		background-color: #e3a869;
+	}
+
+	#middlediv
+	{
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;height: 80%;
+		background-color: #999;
+	}
+	#middle-left
+	{
+/*		display:flex;
+		justify-content:center;
+		align-items:center;*/
+		width: 20%;height: 100%;
+		background-color: #faebd7;
+		transition: width 1s;
+	}
+	#middle-right
+	{
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+		align-items:center;
+		width: 80%;height: 100%;
+		background-color: #daa569;
+		transition: width 1s;
+	}
+	#middle-left dl
+	{
+		margin: 0;
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+		align-items:center;
+		overflow: hidden;
+	}
+	#middle-left dl dd
+	{
+		margin: 0;
+		width: 70%;height: 30px;
+		font-size:12px;
+		background-color: #f0fff0;
+		text-align: center;line-height: 30px;
+		cursor: pointer;
+	}
+	#middle-left dl dt
+	{
+		width: 80%;height:60px;
+		text-align:center;line-height:60px;
+		background-color: #f0ffff;
+		cursor: pointer;
+	}
+	#middle-left dl dd{display: none;opacity:0;transition: opacity 2s;}
+	#middle-left dl dd:hover{background-color:#bdfcc9;}
+	#middle-left dl dt:hover{background-color:#f5deb3;}
+
+	#middle-right #middle-right-changepage
+	{
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		margin: 10px 0;
+		width: 400px;height: 30px;
+		border:1px solid black;
+	}
+	#middle-right #middle-right-changepage a
+	{
+		margin: 0 5px;
+		cursor:pointer;
+	}
+
+	table,table tr td
+	{
+		border-collapse: collapse;
+		border: 1px solid #ccc;
+	}
+	table tr td
+	{
+		text-align: center;
+		padding: 10px;
+	}
+
+	.middle-middle
+	{
+		width: 2px;height: 100%;
+		cursor: pointer;
+	}
+</style>
+
+<body>
+<div id="wrap">
+	<div id="topdiv">
+<!-- 		<div class="menulist">胜利凯旋明年初</div>
+		<div class="menulist">卡是</div> -->
+	</div>
+	<div id="middlediv">
+		<div id="middle-left">
+			<dl class="dllist">
+<!-- 				<dt>1-2</dt>
+				<dd name="0">1</dd>
+				<dd name="0">2</dd>
+
+				<dt>3-4</dt>
+				<dd name="1">3</dd>
+				<dd name="1">4</dd>
+				<dd name="1">3</dd>
+				<dd name="1">4</dd> -->
+			</dl>
+		</div>
+		<div class="middle-middle"></div>
+		<div id="middle-right"></div>
+	</div>
+</div>
+</body>
+
+<script>
+
+	(function LeftList()		// 左侧下拉菜单
+	{
+		// 获取 dl
+		var dlList = document.querySelector('.dllist');
+
+		// 获取数据 左侧下拉菜单
+		wbl.listDatas(function(datas)
+		{
+			datas.forEach(function(value,index)
+			{
+				// 循环中创建 dt
+				var dts = document.createElement('dt');
+
+				// dt 赋值
+				dts.innerText = value["fname"];
+
+				// dt 设置属性
+				dts.setAttribute("dataset",index);
+
+				// dt 添加监听事件
+				dts.addEventListener("click",ListSH,false);
+
+				// 添加进 dl
+				dlList.appendChild(dts);
+				
+				value["cmenu"].forEach(function(v,ind)
+				{	
+					// 再次循环创建 dd
+					var dds = document.createElement('dd');
+
+					// dd 赋值
+					dds.innerText = v["cname"];
+
+					// dd 设置属性
+					dds.setAttribute("name",index);
+
+					// 添加进 dl
+					dlList.appendChild(dds);
+				})
+			})
+		});
+
+
+		function ListSH(e)
+		{
+			// 获取单击某一个 dt 对应的 dd 
+			var dds = document.getElementsByName(e.target.attributes.dataset.value);
+			
+			for(var i = 0; i<dds.length; i++)
+			{
+				// 判断 "" 还是 block
+				if(dds[i].style.display == "")
+				{
+					dds[i].style.display = "block";
+					dds[i].style.opacity = "1";
+				}
+				else
+				{
+					dds[i].style.opacity = "0";
+					dds[i].style.display = "";
+				}
+			}
+		};
+	})();
+
+	// 初始页
+	var currPage = 2;
+	
+	// 每页条数
+	var barnum = 10;
+
+	// 总页数
+	var sumPage = 0;
+
+	(function TopList()				// 顶部菜单
+	{
+		// 获取 topdiv     middle-right
+		var topdiv = document.querySelector('#topdiv');
+		var middle_right = document.querySelector('#middle-right');
+
+		// 获取 top数据
+		wbl.getMenulist(function(datas)
+		{
+			//console.log(datas);
+			
+			// 循环传递的数据
+			datas.forEach(function(value,index)
+			{
+				// 创建 top 的 div
+				var menulist = document.createElement('div');
+
+				// 设置 classname
+				menulist.className = "menulist";
+
+				// 设置 text值
+				menulist.innerText = value;
+
+				// 设置 监听事件
+				menulist.addEventListener("click",CreateTable,false);
+
+				// 添加进 topdiv
+				topdiv.appendChild(menulist);
+			});
+		});
+
+
+		// a的text
+		var adata = ["首页","上一页","下一页","尾页"];
+
+		// th的text
+		var thsdata = ["姓名","性别","年龄","职业","家乡","工作地","爱好","薪资"];
+
+		function CreateTable(e)
+		{
+			// 每次点击 清除div中所有数据
+			middle_right.innerHTML = "";
+
+			// 创建表格
+			var tab = document.createElement('table');
+			var tabbody = document.createElement('tbody');
+
+			// 创建存放 a 的div
+			var asdiv = document.createElement('div');
+			
+			// 循环 a 的对应数据 并创建 a 标签，存入div容器
+			adata.forEach(function(value)
+			{
+				var a = document.createElement('a');
+				a.innerText = value;
+				a.addEventListener("click",ChangePage,false);
+				asdiv.appendChild(a);
+			});
+
+			asdiv.id = "middle-right-changepage";
+
+			// 循环 th 的对应数据 并创建 th 标签，存入table
+			thsdata.forEach(function(value,index)
+			{
+				var ths = document.createElement('th');
+				ths.innerText = value;
+				tab.appendChild(ths);
+			})
+
+			// console.log(e.target.innerText)
+
+			// 传值获取 topmenu数据
+			wbl.getTabledata(e.target.innerText,(currPage-1)*barnum,barnum,function(datas)
+			{
+				// console.log(datas);
+
+				// 遍历数据
+				datas.forEach(function(value,index)
+				{
+					// console.log(value)
+
+					// 删除 数据中的id
+					value.splice(0,1);
+
+					// 创建 tr
+					var trs = document.createElement('tr');
+
+					// 遍历 value 数据
+					value.forEach(function(val,ind)
+					{
+						// 创建 td
+						var tds = document.createElement('td');
+
+						// 赋值 td
+						tds.innerText = val;
+
+						// 添加进 tr
+						trs.appendChild(tds);
+					})
+
+					// 添加进网页中
+					tabbody.appendChild(trs);
+					tab.appendChild(tabbody);
+					middle_right.appendChild(tab);
+					middle_right.appendChild(asdiv);
+				});
+			});
+		};
+
+//------------------------------------------------------------------------
+		function ChangePage(e)
+		{
+			var aTxt = e.target.innerText;
+
+			switch(aTxt)
+			{
+				case "首页" : console.log(currPage);
+					break;
+				case "上一页" : console.log(currPage-1);
+					break;
+				case "下一页" : console.log(aTxt);
+					break;
+				case "尾页" : console.log(aTxt);
+					break;
+			}
+		}
+//---------------------------------------------------------------------
+	})();
+
+
+	(function()						// 竖线隐藏
+	{
+		// 获取 div 竖线
+		var middle_middle = document.querySelector('.middle-middle');
+
+		// 绑定单击事件
+		middle_middle.onclick = function()
+		{
+			// 获取 div 和 页面宽度
+			var middle_left = document.querySelector('#middle-left');
+			var middle_right = document.querySelector('#middle-right');
+			var bodywidth = document.body.offsetWidth;
+
+			// if 判断 middle 中左右div的伸缩
+			if(middle_left.offsetWidth > (bodywidth*0.1))
+			{
+				middle_left.style.width = "0";
+				middle_right.style.width = "100%";
+			}
+			else
+			{
+				middle_left.style.width = "20%";
+				middle_right.style.width = "80%";
+			}
+		}
+	})();
+</script>
+</html>

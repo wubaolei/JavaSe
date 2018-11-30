@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+  <script type='text/javascript' src='/project0/dwr/interface/wbl.js'></script>
+  <script type='text/javascript' src='/project0/dwr/engine.js'></script>
+  <script type='text/javascript' src='/project0/dwr/util.js'></script>
+
+<style>
+html,body{margin: 0;}
+	.wrap
+	{
+		display:flex;
+		justify-content: center;align-items: center;
+		width: 100%;height: 100vh;
+		background-color: black;
+	}
+	.content_div
+	{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 500px;height: 500px;
+		border: 1px solid black;
+	}
+
+	.content_div .img_div{width: 150px;height: 150px;}
+	.content_div .img_div img{width: 100%;height: 100%;}
+
+	#rotate_div{width: 300px;height: 300px;overflow: hidden;}
+
+	#rotate_div .inputs_div
+	{
+		display:flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 300px;height: 300px;
+		transition: all 2s;
+	}
+
+	#rotate_div .inputs_div input
+	{
+		margin: 10px 0;
+		width: 60%;height: 15%;
+		background-color: #292421;
+		color: #fff;
+		outline: none;
+		text-align: center;
+	}
+	#rotate_div .inputs_div input[type="button"]
+	{
+		background-color: #faebd7;
+		color: black;
+		border-radius: 20px;
+		outline: none;
+	}
+	#rotate_div .inputs_div span
+	{
+		font-size: 12px;
+		color: #ccc;
+		cursor: pointer;
+	}
+
+
+	#rotate_div .register_div
+	{
+		display:flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 300px;height: 300px;
+		transition: all 2s;
+/*		border: 1px solid #fff;*/
+	}
+	#rotate_div .register_div input[type="text"]
+	{
+		margin: 10px 0;
+		width: 60%;height:15%;
+		text-align: center;
+		background-color: #faebd7;
+		outline: none;
+	}
+	#rotate_div .register_div div
+	{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 60%;height: 15%;
+		color:#fff;
+	}
+	#rotate_div .register_div div input{margin: 0 10px;outline: none;}
+	#rotate_div .register_div div input[type="button"]
+	{
+		width: 40%;height: 80%;
+		background-color: #fffaf0;
+	}
+
+
+</style>
+
+</head>
+<body>
+
+<div class="wrap">
+	<div class="content_div">
+		<div class="img_div"></div>
+
+		<div id="rotate_div">
+
+			<div class="inputs_div">
+				<input type="text" placeholder="用户名" id="usernameValue">
+				<input type="password" placeholder="密码" id="passwordValue">
+				<input type="button" value="Login" class="Loginbtn">
+				<span class="RegisterBtn">注册</span>
+			</div>
+
+			<div class="register_div">
+				<input type="text" placeholder="用户名" id="regnameValue">
+				<input type="text" placeholder="密码" id="regpwdValue">
+				<div>
+					<input type="radio" name="sex" value="男" class="CheckSex">男
+					<input type="radio" name="sex" value="女" class="CheckSex">女
+				</div>
+				<div>
+					<input type="button" value="注册" class="Regbtn">
+					<input type="button" value="返回" class="Retbtn">
+				</div>
+				
+			</div>
+
+		</div>
+	</div>
+</div>
+
+</body>
+
+	<script>
+		(function()				// logo
+		{
+			var img_div = document.querySelector('.img_div');
+			wbl.LogoImg(function(data)
+			{
+				var logoimg = document.createElement('img');
+				logoimg.setAttribute("src",data);
+				img_div.appendChild(logoimg);
+			});
+		})();
+		
+
+		(function()				// 用户登录
+		{
+			// 获取登录按钮
+			var Loginbtn = document.querySelector('.Loginbtn');
+			Loginbtn.onclick=function()
+			{
+				// 获取用户名
+				var usernameValue = document.querySelector('#usernameValue').value;
+
+				// 获取密码
+				var passwordValue = document.querySelector('#passwordValue').value;
+
+				// 传值 匹配用户登录
+				wbl.CheckUSE(usernameValue,passwordValue,function(data)
+				{
+					if( data== 0)
+					{
+						alert("对不起，用户名与密码不符");
+					}
+					else
+					{
+						alert(data + "，欢迎登录！");
+						window.location.href = "infocharts.html";
+					};
+				});
+			};
+		})();
+
+
+		(function()				// 登录 注册切换
+		{
+			// 获取各种标签
+			var RegisterBtn = document.querySelector('.RegisterBtn');
+			var register_div = document.querySelector('.register_div');
+			var inputs_div = document.querySelector('.inputs_div');
+			var Retbtn = document.querySelector('.Retbtn');
+
+			// 切换至 注册
+			RegisterBtn.onclick=function()
+			{
+				inputs_div.style.transform = "translateY(-300px)";
+				register_div.style.transform = "translateY(-300px)";
+			}
+
+			// 切换至 登录
+			Retbtn.onclick=function()
+			{
+				inputs_div.style.transform = "translateY(0px)";
+				register_div.style.transform = "translateY(0px)";
+			}
+		})();
+
+
+		(function()				// 注册
+		{
+			// 获取各种标签
+			var Regbtn = document.querySelector('.Regbtn');
+			var regnameValue = document.querySelector('#regnameValue');
+			var regpwdValue = document.querySelector('#regpwdValue');
+			var Radios = document.getElementsByName('sex');
+			
+			Regbtn.onclick = function()
+			{
+				for(var i = 0; i< Radios.length; i++)
+				{
+					if(Radios[i].checked == true)
+					{
+						wbl.InsertUser(regnameValue.value,regpwdValue.value,Radios[i].value,function(data)
+						{
+							if(data == 1)
+							{
+								alert("注册成功");
+								regnameValue.value = "";
+								regpwdValue.value = "";
+								inputs_div.style.transform = "translateY(0px)";
+								register_div.style.transform = "translateY(0px)";
+							}
+						});
+					};
+				};
+			};
+			
+			regnameValue.onblur = function()
+			{
+				wbl.CheckOnlyName(regnameValue.value,function(data)
+				{
+					if(data == 1)
+					{
+						alert("对不起，该用户已被注册");
+						regnameValue.value = "";
+					}
+				});
+			};
+		})();
+
+		
+	</script>
+</html>
