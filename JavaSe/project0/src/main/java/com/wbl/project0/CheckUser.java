@@ -62,4 +62,50 @@ public class CheckUser
 		
 		return datas;
 	}
+	
+	
+	public int getSumcount(String name)
+	{
+		ConnectionSQL db = new ConnectionSQL();
+		
+		int data = db.getSumCount(name);
+		
+		return data;
+	}
+	
+	public String[][] getimages()
+	{
+		ConnectionSQL db = new ConnectionSQL();
+		
+		String[][] datas = db.getImages();
+		
+		return datas;
+	}
+	
+	
+	public int updataimageshow(String num)
+	{
+		ConnectionSQL db = new ConnectionSQL();
+		
+		String[] data = num.split(",");
+
+		int count = db.UpdateImageShow(data);
+		
+		return count;
+	}
+	
+	
+	public int updataimagehide(String num)
+	{
+		ConnectionSQL db = new ConnectionSQL();
+		
+		String[] data = num.split(",");
+		
+		int count = db.UpdateImageHide(data);
+		
+		return count;
+	}
+	
+	
+	
 }

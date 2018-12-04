@@ -101,7 +101,6 @@ public class ConnectionSQL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return data;
 	}
 	
@@ -246,7 +245,7 @@ public class ConnectionSQL
 	}
 
 
-	public String[] getMenuList()
+	public String[] getMenuList()			// 顶部菜单
 	{
 		String sql = "SELECT ejobaddress FROM t_emp GROUP BY ejobaddress";
 		
@@ -281,7 +280,7 @@ public class ConnectionSQL
 		return datas;
 	}
 	
-	public String[][] getTableData(String txt,int initialnum,int barnum)
+	public String[][] getTableData(String txt,int initialnum,int barnum)		// 每页数据
 	{
 //		String sql = "SELECT * FROM t_emp WHERE ejobaddress = ?";
 		
@@ -332,4 +331,168 @@ public class ConnectionSQL
 		}
 		return datas;
 	}
+	
+	public int getSumCount(String name)
+	{
+		String sql = "SELECT COUNT(*) FROM t_emp WHERE ejobaddress = ?";
+		
+		int data = 0;
+		
+		try
+		{
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, name);
+			
+			ResultSet rs = pstm.executeQuery();
+			
+			while(rs.next())
+			{
+				data = rs.getInt(1);
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
+	
+	public String[][] getImages()
+	{
+		String sql = "SELECT * FROM t_swiper";
+		
+		String[][] datas = null;
+		
+		try
+		{
+			PreparedStatement pstm = conn.prepareStatement(sql);
+
+			ResultSet rs = pstm.executeQuery();
+
+			ResultSetMetaData rsmt = rs.getMetaData();
+			int col = rsmt.getColumnCount();
+
+			int row = 0;
+			while(rs.next())
+			{
+				row++;
+			}
+
+			datas = new String[row][col];
+
+			rs.beforeFirst();
+
+			int count = 0;
+			while(rs.next())
+			{
+				for(int i = 0; i < col;i++)
+				{
+					datas[count][i] = rs.getString(i+1);
+				}
+				count++;
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return datas;
+	}
+	
+	
+	public int UpdateImageShow(String[] data)
+	{
+		String sql = "UPDATE t_swiper SET sstatus = 1 WHERE sid = ?";
+		
+		int count = 0;
+		
+		try
+		{
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			
+			for(String d:data)
+			{
+				pstm.setString(1, d);
+				count = pstm.executeUpdate();
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(null != conn)
+			{
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return count;
+	}
+	
+	
+	
+	public int UpdateImageHide(String[] data)
+	{
+		String sql = "UPDATE t_swiper SET sstatus = 0 WHERE sid = ?";
+		
+		int count = 0;
+		
+		try
+		{
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			
+			for(String d:data)
+			{
+				pstm.setString(1, d);
+				count = pstm.executeUpdate();
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(null != conn)
+			{
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return count;
+	}
+	
+//	public static void main(String[] args)
+//	{
+//		ConnectionSQL db = new ConnectionSQL();
+//		
+//		int data =	db.getSumCount("新丝路");
+//		
+//		System.out.println(data);
+//	}
+	
 }
