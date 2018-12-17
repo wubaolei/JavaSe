@@ -3,7 +3,7 @@ package com.wbl.threadlesson2;
 public class Test
 {
 	/**
-	 * 这里换了种说明 有点没听懂，看到方法就知道什么意思了
+	 * 这里换了种说法 有点没听懂，看到方法就知道什么意思了
 	 * 线程之间交换数据
 	 * 1.主线程 --> 子线程 传数据 	利用构造方法 
 	 * 2.子线程 --> 主线程 传数据	必须在 synchronized同步快  使用 notify
